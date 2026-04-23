@@ -1,0 +1,32 @@
+{
+  "name": "ingenious-bot",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "deploy": "wrangler deploy",
+    "dev": "wrangler dev",
+    "start": "wrangler dev",
+    "test": "vitest",
+    "cf-typegen": "wrangler types"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@discordjs/builders": "^1.14.1",
+    "@sapphire/snowflake": "^3.5.3",
+    "deepmerge-ts": "^7.1.5",
+    "dotenv": "^16.4.5",
+    "itty-router": "^5.0.17",
+    "npm": "^11.13.0",
+    "pino": "^9.1.0"
+  },
+  "devDependencies": {
+    "@cloudflare/vitest-pool-workers": "^0.14.9",
+    "@cloudflare/workers-types": "^4.20260423.1",
+    "discord-api-types": "^0.38.23",
+    "typescript": "^5.5.2",
+    "vitest": "~4.1.0",
+    "wrangler": "^4.84.1"
+  }
+}
