@@ -1,4 +1,4 @@
-import { AutoRouter, cors} from "itty-router";
+import { AutoRouter, cors, error} from "itty-router";
 import { APIResponse } from "../utils/APIResponse";
 
 const { preflight, corsify } = cors({
@@ -15,14 +15,15 @@ router.get('/', () => new Response('Welcome to the OOG Shipwright data APIs!'));
 
 import shipComponents from '../constants/ship-components.json';
 router.get('/ship/component', (req) => {
-  return APIResponse.ok(shipComponents);
+  return shipComponents;
 });
+
 router.get('/ship/component/:code', (req) => {
   const component = shipComponents[req.params.code as keyof typeof shipComponents];
   if (component) {
-    return APIResponse.ok(component);
+    return component;
   } else {
-    return APIResponse.notfound('Component not found');
+    return error(404, 'Component not found');
   }
 });
 
