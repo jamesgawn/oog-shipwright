@@ -1,7 +1,15 @@
-import { AutoRouter } from "itty-router";
+import { AutoRouter, cors} from "itty-router";
 import { APIResponse } from "../utils/APIResponse";
 
-const router = AutoRouter({ base: '/data' });
+const { preflight, corsify } = cors({
+  origin: 'https://oogcapitalmanagement.com',
+});
+
+const router = AutoRouter({ 
+  base: '/data',   
+  before: [preflight],
+  finally: [corsify]
+});
 
 router.get('/', () => new Response('Welcome to the OOG Shipwright data APIs!'));
 
