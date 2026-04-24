@@ -4,6 +4,7 @@ import { deploy, withVerify } from './discord/utils';
 import { InteractionHandler } from './discord/handlers/InteractionHandler';
 import { logger, beforeHandler, finallyHandler } from './utils/logger';
 import pu from './pu'
+import data from './data'
 import { APIResponse } from './utils/APIResponse';
 
 const router = AutoRouter({
@@ -23,6 +24,7 @@ router.post('/discord/interactions', withVerify, async (request, env) => {
 });
 
 router.all("/pu/*", pu.fetch)
+router.all("/data/*", data.fetch);
 
 router.get('/discord/admin/register', async (request, env) => {
 	return deploy(env);
