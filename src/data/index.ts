@@ -14,10 +14,10 @@ const router = AutoRouter({
 router.get('/', () => new Response('Welcome to the OOG Shipwright data APIs!'));
 
 import shipComponents from '../constants/ship-components.json';
-router.get('/ship/components', (req) => {
+router.get('/ship/component', (req) => {
   return APIResponse.ok(shipComponents);
 });
-router.get('/ship/components/:code', (req) => {
+router.get('/ship/component/:code', (req) => {
   const component = shipComponents[req.params.code as keyof typeof shipComponents];
   if (component) {
     return APIResponse.ok(component);
