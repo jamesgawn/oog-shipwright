@@ -3,7 +3,7 @@ import {
     ApplicationCommandType,
     InteractionResponseType,
     MessageFlags,
-    APIContainerComponent
+    APITextDisplayComponent
 } from 'discord-api-types/v10';
 import { Command } from '../structures/Command';
 import { Env } from '../../types/Env';
@@ -75,16 +75,18 @@ export class GetShipComponentInternalPriceCommand extends Command {
         }
         
         const formattedComponentInternalPrice = formatCurrency(componentInternalPrice);
+        const displayContent = `# ${componentDetails?.Name} Internal Price\n\n| **Field** | **Value** |\n|---|---|\n| **Ticker** | ${tickerValue} |\n| **Category** | ${componentDetails?.CategoryName} |\n| **Internal Price** | ${formattedComponentInternalPrice} |`;
 
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                "components": [
-                        {
-                        "type": 10,  // ComponentType.TEXT_DISPLAY
-                        "content": `# ${componentDetails?.Name} Internal Price\n | **Ticker** | ${tickerValue} |\n| **Category** | ${componentDetails?.CategoryName} |\n| **Internal Price** | ${formattedComponentInternalPrice} |`
-                        }
-                    ]
+                embeds: [
+                    {
+                        title: `${componentDetails?.Name} Internal Price`,
+                        description: displayContent,
+                        color: 0x0099ff,
+                    }
+                ]
             },
         });
     }
