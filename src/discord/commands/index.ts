@@ -6,10 +6,11 @@ import * as getShipComponentInternalPrice from "./getShipComponentInternalPrice"
 
 export const commands = {
   ping: ping.PingCommand,
-  "get-material-price": getCXMaterialPrice.GetMaterialPriceCommand
+  "get-material-price": getCXMaterialPrice.GetMaterialPriceCommand,
+  "get-ship-component-internal-price": getShipComponentInternalPrice.GetShipComponentInternalPriceCommand,
 } as {
   ping: new (env: Env) => ping.PingCommand,
   "get-material-price": new (env: Env) => getCXMaterialPrice.GetMaterialPriceCommand,
-  "get-ship-component-price": new (env: Env) => getShipComponentInternalPrice.GetShipComponentInternalPriceCommand,
+  "get-ship-component-internal-price": new (env: Env) => getShipComponentInternalPrice.GetShipComponentInternalPriceCommand,
   [key: string]: (new (env: Env) => Command) | undefined,
 };
