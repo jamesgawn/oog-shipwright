@@ -72,10 +72,12 @@ export class GetShipComponentInternalPriceCommand extends Command {
           });
         }
 
+        const formattedComponentInternalPrice = Number(componentInternalPrice).toLocaleString('en-GB', { style: 'currency', currency: 'AIC', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `**Ticker:** ${tickerValue}\n**Name:** ${componentDetails?.Name}\n**Category:** ${componentDetails?.CategoryName}\n**Internal Price:** ${componentInternalPrice} AIC`,
+                                content: `**Ticker:** ${tickerValue}\n**Name:** ${componentDetails?.Name}\n**Category:** ${componentDetails?.CategoryName}\n**Internal Price:** ${formattedComponentInternalPrice} AIC`,
             },
         });
     }
