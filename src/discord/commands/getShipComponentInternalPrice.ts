@@ -13,7 +13,7 @@ import shipComponents from '../../reference/ship-components.json';
 export class GetShipComponentInternalPriceCommand extends Command {
     public constructor(env: Env) {
         super({
-            name: 'get-ship-component-price',
+            name: 'get-ship-component-internal-price',
             description: 'Get the current internal price paid for a ship component',
             env: env
         });
