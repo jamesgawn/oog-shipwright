@@ -79,6 +79,7 @@ export class GetMaterialPriceCommand extends Command {
         }
 
         const materialLibrary = new MaterialLibrary()
+        const materialDetails = materialLibrary.getMaterialByTicker(tickerValue);
         const materialPrice = await materialLibrary.getMaterialPriceByTicker(cxValue as CommodityExchange, tickerValue)
 
         if (materialPrice === null) {
@@ -102,7 +103,7 @@ export class GetMaterialPriceCommand extends Command {
         }
 
         const formattedComponentInternalPrice = formatCurrency(materialPrice.Price, materialPrice.Currency);
-        const content = `### ${materialPrice.MaterialName} - CX Price on ${cxValue}\n\n**Ticker:** ${tickerValue}\n**Price:** ${formattedComponentInternalPrice}`;
+        const content = `### ${materialDetails?.Name} - CX Price on ${cxValue}\n\n**Ticker:** ${tickerValue}\n**Category:** ${materialDetails?.CategoryName}\n**Price:** ${formattedComponentInternalPrice}`;
 
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
