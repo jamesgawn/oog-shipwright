@@ -9,6 +9,7 @@ import { Env } from '../../types/Env';
 import { APIResponse } from '../structures/APIResponse';
 import { MaterialLibrary } from '../../lib/MaterialLibrary';
 import shipComponents from '../../reference/ship-components.json';
+import { formatCurrency } from '../../utils/currencyHelper';
 
 export class GetShipComponentInternalPriceCommand extends Command {
     public constructor(env: Env) {
@@ -61,8 +62,8 @@ export class GetShipComponentInternalPriceCommand extends Command {
           });
         }
 
-        const componentInternalPrice = shipComponents[tickerValue as keyof typeof shipComponents];
-        if (componentInternalPrice === null) {
+        const componentInternalPrice = Number(shipComponents[tickerValue as keyof typeof shipComponents]);
+        if (isNaN(componentInternalPrice)) {
           return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
@@ -71,13 +72,13 @@ export class GetShipComponentInternalPriceCommand extends Command {
             },
           });
         }
-
-        const formattedComponentInternalPrice = Number(componentInternalPrice).toLocaleString('en-GB', { style: 'currency', currency: 'AIC', minimumFractionDigits: 0, maximumFractionDigits: 0 });
+        
+        const formattedComponentInternalPrice = formatCurrency(componentInternalPrice);
 
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                                content: `**Ticker:** ${tickerValue}\n**Name:** ${componentDetails?.Name}\n**Category:** ${componentDetails?.CategoryName}\n**Internal Price:** ${formattedComponentInternalPrice} AIC`,
+                content: `**Ticker:** ${tickerValue}\n**Name:** ${componentDetails?.Name}\n**Category:** ${componentDetails?.CategoryName}\n**Internal Price:** ${formattedComponentInternalPrice}`,
             },
         });
     }
