@@ -1,6 +1,7 @@
 import {
     type APIChatInputApplicationCommandInteraction,
     ApplicationCommandType,
+    ComponentType,
     InteractionResponseType,
     MessageFlags,
 } from 'discord-api-types/v10';
@@ -74,11 +75,18 @@ export class GetShipComponentInternalPriceCommand extends Command {
         }
         
         const formattedComponentInternalPrice = formatCurrency(componentInternalPrice);
+        const displayContent = `# ${componentDetails?.Name} Internal Price\n\n| **Ticker** | ${tickerValue} |\n| **Category** | ${componentDetails?.CategoryName} |\n| **Internal Price** | ${formattedComponentInternalPrice} |`;
 
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `**Ticker:** ${tickerValue}\n**Name:** ${componentDetails?.Name}\n**Category:** ${componentDetails?.CategoryName}\n**Internal Price:** ${formattedComponentInternalPrice}`,
+                flags: MessageFlags.IsComponentsV2,
+                components: [
+                    {
+                        type: ComponentType.TextDisplay,
+                        content: displayContent
+                    }
+                ]
             },
         });
     }
