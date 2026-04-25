@@ -3,6 +3,7 @@ import {
     ApplicationCommandType,
     InteractionResponseType,
     MessageFlags,
+    APIContainerComponent
 } from 'discord-api-types/v10';
 import { Command } from '../structures/Command';
 import { Env } from '../../types/Env';
@@ -78,7 +79,12 @@ export class GetShipComponentInternalPriceCommand extends Command {
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `**Ticker:** ${tickerValue}\n**Name:** ${componentDetails?.Name}\n**Category:** ${componentDetails?.CategoryName}\n**Internal Price:** ${formattedComponentInternalPrice}`,
+                "components": [
+                        {
+                        "type": 10,  // ComponentType.TEXT_DISPLAY
+                        "content": `# ${componentDetails?.Name} Internal Price\n | **Ticker** | ${tickerValue} |\n| **Category** | ${componentDetails?.CategoryName} |\n| **Internal Price** | ${formattedComponentInternalPrice} |`
+                        }
+                    ]
             },
         });
     }
