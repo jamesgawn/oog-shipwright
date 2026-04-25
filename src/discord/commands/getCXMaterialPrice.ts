@@ -102,7 +102,7 @@ export class GetMaterialPriceCommand extends Command {
         }
 
         const formattedComponentInternalPrice = formatCurrency(materialPrice.Price, materialPrice.Currency);
-        const content = `### ${materialPrice.MaterialName} - CX Price on ${cxValue}\n\n**Ticker:** ${tickerValue}\n**}\n**Price:** ${formattedComponentInternalPrice}`;
+        const content = `### ${materialPrice.MaterialName} - CX Price on ${cxValue}\n\n**Ticker:** ${tickerValue}\n**Price:** ${formattedComponentInternalPrice}`;
 
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
