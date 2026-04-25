@@ -25,7 +25,7 @@ export class GetShipComponentInternalPriceCommand extends Command {
                 type: ApplicationCommandType.ChatInput,
                 options: [
                     {
-                        name: 'component',
+                        name: 'ticker',
                         description: 'The ticker for the ship component. e.g. LHP',
                         type: 3, // STRING
                         required: true
@@ -36,37 +36,37 @@ export class GetShipComponentInternalPriceCommand extends Command {
     }
 
     public override async chatInput(interaction: APIChatInputApplicationCommandInteraction) : Promise<APIResponse> {
-        const materialOption = interaction.data.options?.find(option => option.name === 'component');
-        const materialValue = (materialOption && 'value' in materialOption) ? materialOption.value : undefined;
+        const tickerOption = interaction.data.options?.find(option => option.name === 'ticker');
+        const tickerValue = (tickerOption && 'value' in tickerOption) ? tickerOption.value : undefined;
 
-        if (typeof materialValue !== 'string' || materialValue.length === 0) {
+        if (typeof tickerValue !== 'string' || tickerValue.length === 0) {
           return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `Invalid material ticker: ${materialValue}`,
+                content: `Invalid ticker: ${tickerValue}`,
                 flags: MessageFlags.Ephemeral,
             },
           });
         }
 
         const materialLibrary = new MaterialLibrary()
-        const componentDetails = materialLibrary.getMaterialByTicker(materialValue);
+        const componentDetails = materialLibrary.getMaterialByTicker(tickerValue);
         if (componentDetails === null) {
           return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `Unable to find ticker ${materialValue}.`,
+                content: `Unable to find ticker ${tickerValue}.`,
                 flags: MessageFlags.Ephemeral,
             },
           });
         }
 
-        const componentInternalPrice = shipComponents[materialValue as keyof typeof shipComponents];
+        const componentInternalPrice = shipComponents[tickerValue as keyof typeof shipComponents];
         if (componentInternalPrice === null) {
           return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `Unable to find internal price for ticker ${materialValue}.`,
+                content: `Unable to find internal price for ticker ${tickerValue}.`,
                 flags: MessageFlags.Ephemeral,
             },
           });
@@ -75,7 +75,7 @@ export class GetShipComponentInternalPriceCommand extends Command {
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `**Ticker:** ${materialValue}\n**Name:** ${componentDetails?.Name}\n**Internal Price:** ${componentInternalPrice} AIC`,
+                content: `**Ticker:** ${tickerValue}\n**Name:** ${componentDetails?.Name}\n**Internal Price:** ${componentInternalPrice} AIC`,
             },
         });
     }
