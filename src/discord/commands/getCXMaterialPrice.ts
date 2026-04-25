@@ -39,8 +39,8 @@ export class GetMaterialPriceCommand extends Command {
                         ]
                     },
                     {
-                        name: 'material',
-                        description: 'The ticker for the material to get the price for.',
+                        name: 'ticker',
+                        description: 'The material ticker for the material to get the price for.',
                         type: 3, // STRING
                         required: true
                     }
@@ -53,8 +53,8 @@ export class GetMaterialPriceCommand extends Command {
         const cxOption = interaction.data.options?.find(option => option.name === 'cx');
         const cxValue = (cxOption && 'value' in cxOption) ? cxOption.value : undefined;
 
-        const materialOption = interaction.data.options?.find(option => option.name === 'material');
-        const materialValue = (materialOption && 'value' in materialOption) ? materialOption.value : undefined;
+        const tickerOption = interaction.data.options?.find(option => option.name === 'ticker');
+        const tickerValue = (tickerOption && 'value' in tickerOption) ? tickerOption.value : undefined;
 
         if (typeof cxValue !== 'string' || !['AI1', 'CI1', 'CI2', 'NC1', 'NC2', 'IC1'].includes(cxValue)) {
           return new APIResponse({
@@ -67,24 +67,24 @@ export class GetMaterialPriceCommand extends Command {
           });
         }
 
-        if (typeof materialValue !== 'string' || materialValue.length === 0) {
+        if (typeof tickerValue !== 'string' || tickerValue.length === 0) {
           return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `Invalid material ticker: ${materialValue}`,
+                content: `Invalid material ticker: ${tickerValue}`,
                 flags: MessageFlags.Ephemeral,
             },
           });
         }
 
         const materialLibrary = new MaterialLibrary()
-        const materialPrice = await materialLibrary.getMaterialPriceByTicker(cxValue as CommodityExchange, materialValue)
+        const materialPrice = await materialLibrary.getMaterialPriceByTicker(cxValue as CommodityExchange, tickerValue)
 
         if (materialPrice === null) {
           return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `Material with ticker ${materialValue} not found at ${cxValue}.`,
+                content: `Material with ticker ${tickerValue} not found at ${cxValue}.`,
                 flags: MessageFlags.Ephemeral,
             },
           });
@@ -93,7 +93,7 @@ export class GetMaterialPriceCommand extends Command {
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `**Material prices for ${materialValue}**\n**Ask**: ${materialPrice.Ask}, with volume: ${materialPrice.AskCount}\n**Bid**: ${materialPrice.Bid}, with volume: ${materialPrice.BidCount}`,
+                content: `**Material prices for ${tickerValue}**\n**Ask**: ${materialPrice.Ask}, with volume: ${materialPrice.AskCount}\n**Bid**: ${materialPrice.Bid}, with volume: ${materialPrice.BidCount}`,
             },
         });
     }
