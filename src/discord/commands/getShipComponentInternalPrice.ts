@@ -75,7 +75,7 @@ export class GetShipComponentInternalPriceCommand extends Command {
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `**Ticker:** ${tickerValue}\n**Name:** ${componentDetails?.Name}\n**Internal Price:** ${componentInternalPrice} AIC`,
+                content: `**Ticker:** ${tickerValue}\n**Name:** ${componentDetails?.Name}\n**Category:** ${componentDetails?.CategoryName}\n**Internal Price:** ${componentInternalPrice} AIC`,
             },
         });
     }
