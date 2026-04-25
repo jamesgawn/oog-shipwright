@@ -80,12 +80,11 @@ export class GetShipComponentInternalPriceCommand extends Command {
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                embeds: [
+                components: [
                     {
-                        title: `${componentDetails?.Name} Internal Price`,
-                        description: displayContent,
-                        color: 0x0099ff,
-                    }
+                        type: 10,
+                        content: displayContent
+                    } as APITextDisplayComponent
                 ]
             },
         });
