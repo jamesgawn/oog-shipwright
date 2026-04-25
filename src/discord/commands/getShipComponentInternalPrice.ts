@@ -75,7 +75,7 @@ export class GetShipComponentInternalPriceCommand extends Command {
         }
         
         const formattedComponentInternalPrice = formatCurrency(componentInternalPrice);
-        const displayContent = `## ${componentDetails?.Name} Internal Price\n\n **Ticker:** ${tickerValue}\n**Category:** ${componentDetails?.CategoryName}\n**Internal Price:** ${formattedComponentInternalPrice}`;
+        const displayContent = `### ${componentDetails?.Name} Internal Price\n\n**Ticker:** ${tickerValue}\n**Category:** ${componentDetails?.CategoryName}\n**Internal Price:** ${formattedComponentInternalPrice}`;
 
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
