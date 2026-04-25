@@ -1,4 +1,4 @@
-import { IRequest, IRequestStrict, RequestHandler, ResponseHandler } from "itty-router"
+import { error, IRequest, IRequestStrict, RequestHandler, ResponseHandler } from "itty-router"
 import pino from "pino";
 
 
@@ -22,6 +22,30 @@ export const finallyHandler: ResponseHandler<CustomRequest> = async (response, r
     method: request.method,
 		url: request.url,
 	}, "Completed Request")
+}
+
+export const catchHandler = async (err: unknown, request: IRequest) => {
+  const traceId = (request as CustomRequest).traceId ?? null;
+  const status = typeof err === 'object' && err !== null && 'status' in err && typeof err.status === 'number'
+    ? err.status
+    : 500;
+
+  logger.error({
+    err,
+    traceId,
+    method: request.method,
+    url: request.url,
+  }, "Unhandled request error")
+
+  if (err instanceof Response) {
+    return err;
+  }
+
+  if (status < 500 && err instanceof Error && err.message) {
+    return error(status, err.message);
+  }
+
+  return error(status, 'Internal Server Error');
 }
 
 export const logger = pino({

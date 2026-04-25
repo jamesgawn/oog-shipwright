@@ -2,13 +2,14 @@ import { AutoRouter } from 'itty-router';
 import { APIInteraction, APIPingInteraction } from 'discord-api-types/v10';
 import { deploy, withVerify } from './discord/utils';
 import { InteractionHandler } from './discord/handlers/InteractionHandler';
-import { logger, beforeHandler, finallyHandler } from './utils/logger';
+import { logger, beforeHandler, catchHandler, finallyHandler } from './utils/logger';
 import material from './api/material'
 import ship from './api/ship'
 import fio from './api/fio'
 
 const router = AutoRouter({
 	before: [beforeHandler],
+	catch: catchHandler,
 	finally: [finallyHandler]
 });
 
