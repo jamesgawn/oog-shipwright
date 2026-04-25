@@ -1,6 +1,6 @@
-import fetchWithCache from "../../utils/fetchWithCache";
-import { materials } from "./Materials";
-import { CommodityExchange, TradeMaterialOrderBook } from "./TradeFinder";
+import fetchWithCache from "../utils/fetchWithCache";
+import { CommodityExchange, TradeMaterialOrderBook } from "./CommodityExchange";
+import materials from "./Materials";
 
 type Material = {
   "MaterialId": string;
@@ -26,8 +26,8 @@ export class MaterialLibrary {
   }
 
   public async getMaterialPriceByTicker(commodityExchange: CommodityExchange, materialTicker: string): Promise<TradeMaterialOrderBook> {
-    const response = await fetchWithCache(new Request(`https://rest.fnar.net/exchange/${materialTicker}.${commodityExchange}`));
-    return await response.json();
+    const response = await fetchWithCache<TradeMaterialOrderBook>(new Request(`https://rest.fnar.net/exchange/${materialTicker}.${commodityExchange}`));
+    return response;
   }
 
   public getAllMaterials(): Material[] {

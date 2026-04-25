@@ -1,6 +1,6 @@
 import { logger } from "./logger";
 
-export default async function fetchWithCache(request: Request, minimumCacheSeconds: number = 60): Promise<Response> {
+export default async function fetchWithCache<T>(request: Request, minimumCacheSeconds: number = 60): Promise<T> {
   const cache = caches.default;
   const cacheKey = new Request(request.url, request);
 
@@ -8,7 +8,7 @@ export default async function fetchWithCache(request: Request, minimumCacheSecon
   let response = await cache.match(cacheKey);
   if (response) {
     logger.info("Cache hit for " + request.url);
-    return response;
+    return response.clone().json() as Promise<T>;
   }
   logger.info("Cache miss for " + request.url);
   // Cache miss: fetch from origin or external API
@@ -33,7 +33,7 @@ export default async function fetchWithCache(request: Request, minimumCacheSecon
     });
     await cache.put(cacheKey, cachedResponse);
     logger.info("Response cached for " + request.url + " with cache configuration " + newHeaders.get("Cache-Control"));
-    return response.clone();
+    return response.clone().json() as Promise<T>;
   }
-  return response;
+  return response.json() as Promise<T>;
 }

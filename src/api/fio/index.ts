@@ -3,7 +3,7 @@ import { logger } from "../../utils/logger";
 import { FioStorageHandler } from "./handlers/FioStorageHandler";
 import { FioContext, FioAPI } from "./utils/FioApi";
 
-const router = AutoRouter({ base: '/pu/fio' });
+const router = AutoRouter({ base: '/fio' });
 
 router.get('/', () => new Response('Welcome to the Prosperous Universe FIO helper APIs!'));
 

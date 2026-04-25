@@ -1,13 +1,13 @@
 import { Env } from "../../types/Env";
 import { Command } from "../structures/Command";
 import * as ping from "./ping";
-import * as getMaterialPrice from "./getMaterialPrice";
+import * as getCXMaterialPrice from "./getCXMaterialPrice";
 
 export const commands = {
   ping: ping.PingCommand,
-  "get-material-price": getMaterialPrice.GetMaterialPriceCommand
+  "get-material-price": getCXMaterialPrice.GetMaterialPriceCommand
 } as {
   ping: new (env: Env) => ping.PingCommand,
-  "get-material-price": new (env: Env) => getMaterialPrice.GetMaterialPriceCommand,
+  "get-material-price": new (env: Env) => getCXMaterialPrice.GetMaterialPriceCommand,
   [key: string]: (new (env: Env) => Command) | undefined,
 };

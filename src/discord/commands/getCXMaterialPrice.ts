@@ -7,8 +7,8 @@ import {
 import { Command } from '../structures/Command';
 import { Env } from '../../types/Env';
 import { APIResponse } from '../structures/APIResponse';
-import { MaterialLibrary } from '../../pu/lib/MaterialLibrary';
-import { CommodityExchange } from '../../pu/lib/TradeFinder';
+import { MaterialLibrary } from '../../lib/MaterialLibrary';
+import { CommodityExchange } from '../../lib/CommodityExchange';
 
 export class GetMaterialPriceCommand extends Command {
     public constructor(env: Env) {

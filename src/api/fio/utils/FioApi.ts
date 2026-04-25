@@ -112,9 +112,9 @@ export class FioAPI {
     let response;
     
     try {
-      response = await fetchWithCache(new Request(url, params));
+      response = await fetchWithCache<T>(new Request(url, params));
       logger.info("Finished request to " + url)
-      let json = response.json();
+      let json = await response;
       return json as T;
     }
     catch (err) {

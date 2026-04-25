@@ -1,4 +1,4 @@
-[
+export default [
   {
     "MaterialId": "9842ad8d9dfdf8e4c2e80117e7b5ebaf",
     "CategoryName": "Consumables (Luxury)",
