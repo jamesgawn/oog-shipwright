@@ -9,6 +9,7 @@ import { Env } from '../../types/Env';
 import { APIResponse } from '../structures/APIResponse';
 import { MaterialLibrary } from '../../lib/MaterialLibrary';
 import { CommodityExchange } from '../../lib/CommodityExchange';
+import { formatCurrency } from '../../utils/currencyHelper';
 
 export class GetMaterialPriceCommand extends Command {
     public constructor(env: Env) {
@@ -90,10 +91,23 @@ export class GetMaterialPriceCommand extends Command {
           });
         }
 
+        if (materialPrice.Price === null) {
+          return new APIResponse({
+            type: InteractionResponseType.ChannelMessageWithSource,
+            data: {
+                content: `Material with ticker ${tickerValue} has no price at ${cxValue}.`,
+                flags: MessageFlags.Ephemeral,
+            },
+          });
+        }
+
+        const formattedComponentInternalPrice = formatCurrency(materialPrice.Price, materialPrice.Currency);
+        const content = `### ${materialPrice.MaterialName} - CX Price on ${cxValue}\n\n**Ticker:** ${tickerValue}\n**}\n**Price:** ${formattedComponentInternalPrice}`;
+
         return new APIResponse({
             type: InteractionResponseType.ChannelMessageWithSource,
             data: {
-                content: `**Material prices for ${tickerValue}**\n**Ask**: ${materialPrice.Ask}, with volume: ${materialPrice.AskCount}\n**Bid**: ${materialPrice.Bid}, with volume: ${materialPrice.BidCount}`,
+                content: content
             },
         });
     }
