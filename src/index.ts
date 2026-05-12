@@ -6,6 +6,7 @@ import { logger, beforeHandler, catchHandler, finallyHandler } from './utils/log
 import material from './api/material'
 import ship from './api/ship'
 import fio from './api/fio'
+import { handleMcpRequest } from './mcp/server'
 
 const router = AutoRouter({
 	before: [beforeHandler],
@@ -27,6 +28,7 @@ router.post('/discord/interactions', withVerify, async (request, env) => {
 router.all("/material/*", material.fetch)
 router.all("/fio/*", fio.fetch)
 router.all("/ship/*", ship.fetch);
+router.all('/mcp', handleMcpRequest);
 
 router.get('/discord/admin/register', async (request, env) => {
 	return deploy(env);
